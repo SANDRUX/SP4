@@ -1,42 +1,147 @@
+#include "IntSet.h"
+#include "IntNode.h"
 
-// // void IntNode::remove(int index)
-// // {
-// //     if ( index == 0 )
-// //     {
-// //         pop_front();
-// //     }
-// //     else
-// //         {
-// //             Node <T> * p_previous = this->p_head;
+IntSet::IntSet()
+{
+    this->node = NULL;
+}
 
-// //             for (int i {0}; i < index - 1; i++)
-// //             {
-// //                 p_previous = p_previous->p_next;
-// //             }
+IntSet::IntSet(IntSet & rhsSet)
+{
+    if (this->isEmpty())
+    {
+        this->operator=(rhsSet);
+    }
+}
 
-// //             Node <T> * p_to_delete = p_previous->p_next;
-// //             p_previous->p_next = p_to_delete->p_next;
+void IntSet::clear()
+{
+    while(size)
+    {
+        if (!this->isEmpty())
+        {
+            IntNode *temp = this->node;
+            this->node = this->node->getNextNode();
 
-// //             delete p_to_delete;
+            delete temp;
 
-// //             size--;
-// //         }
-// // }
-// template <class T>
-// void List <T>::insert( T data, int index )
-// {
-//     if (index == 0)
-//     {
-//         push_front( data );
-//     }
-//     else
-//         {
-//             Node <T> * p_previous = this->p_head;
+            this->size--;
+        }
+    }
+}
 
-//             for (int i {0}; i < index - 1; i++)
-//             {
-//                 p_previous = p_previous->p_next;
-//             }
-//             p_previous->p_next = new Node <T>( data, p_previous->p_next );
-//         }
-// }
+IntSet::~IntSet()
+{
+    clear();
+}
+
+void IntSet::operator=(IntSet & x)
+{
+    this->node->setThis(x.node->getVal(), x.node->getNextNode());
+}
+
+std::ostream &operator<<(std::ostream &os, IntSet * set)
+{
+    if (set->isEmpty())
+    {
+        os << "Set is empty!" << std::endl;
+    }
+
+    os << "[ ";
+
+    os << set->node->getVal() << " ";
+
+    while (set->node->getNextNode() != NULL)
+    {
+        os << set->node->getNextNode()->getVal() << " ";
+
+        set->node = set->node->getNextNode();
+    }
+
+    os << "]";
+
+    return os;
+}
+
+bool IntSet::isEmpty()
+{
+    if (this->node == NULL)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool IntSet::insert(int val)
+{
+    if (this->isEmpty())
+    {
+        this->node = new IntNode;
+
+        this->node->setVal(val);
+        this->node->setNextNode(NULL);
+
+        this->size ++;
+
+        return true;
+    }
+
+    IntNode * srch = this->node;        
+
+    while (srch->getNextNode() != NULL)
+    {
+        if (srch->getNextNode()->getVal() == val)
+        {
+            return false;
+        }
+        
+        srch = srch->getNextNode();
+    }
+
+    IntNode * curr = new IntNode;
+    
+    curr->setVal(val);
+    curr->setNextNode(NULL);
+
+    srch->setNextNode(curr);
+
+    this->size ++;
+
+    return true;
+}
+
+bool IntSet::remove(int val)
+{
+    if (this->isEmpty())
+    {
+        return false;
+    }
+    
+    IntNode * srch = this->node;
+    IntNode * prev;
+
+    int count = 0;
+
+    while (count < 1)
+    {
+        if (srch->getNextNode()->getVal() == val)
+        {
+            prev = srch;
+
+            prev->setNextNode(srch->getNextNode()->getNextNode());
+
+            delete srch;
+
+            this->size --;
+
+            count --;
+
+            return true;
+        }
+        
+        srch = srch->getNextNode();
+    }
+
+    return false;
+}

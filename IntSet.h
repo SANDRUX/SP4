@@ -1,22 +1,29 @@
 #include "IntNode.h"
-#include <string>
+#include <iostream>
 
 #pragma once
 
 class IntSet    
 {
+// friend void operator<<(int, IntSet);
+
 private:
-    IntNode node;
+    IntNode * node;
+    void operator=(IntSet &x);
+    void clear();
+    int size = 0;
+    // void operator=(const IntSet &); 
 
 public:
     IntSet();
-    IntSet(const IntSet &);
+    IntSet(IntSet &);
 
     ~IntSet();
-
-    void remove(int);
+    
+    bool remove(int);
     bool insert(int);
     bool isEmpty();
-    void operator=(const IntSet &);
-    friend void operator<<(int x, IntSet);
+    friend std::ostream & operator<<(std::ostream & os, IntSet * set);
 };
+
+std::ostream &operator<<(std::ostream &os, IntSet &set);
