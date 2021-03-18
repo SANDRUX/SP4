@@ -51,11 +51,13 @@ std::ostream &operator<<(std::ostream &os, IntSet * set)
 
     os << set->node->getVal() << " ";
 
-    while (set->node->getNextNode() != NULL)
-    {
-        os << set->node->getNextNode()->getVal() << " ";
+    IntNode * srch = set->node;
 
-        set->node = set->node->getNextNode();
+    while (srch->getNextNode() != NULL)
+    {
+        os << srch->getNextNode()->getVal() << " ";
+
+        srch = srch->getNextNode();
     }
 
     os << "]";
@@ -119,6 +121,16 @@ bool IntSet::remove(int val)
     }
     
     IntNode * srch = this->node;
+
+    if (srch->getVal() == val)
+    {
+        this->node = srch->getNextNode();
+
+        delete srch;
+
+        return true;
+    }
+
     IntNode * prev;
 
     int count = 0;
@@ -129,13 +141,15 @@ bool IntSet::remove(int val)
         {
             prev = srch;
 
-            prev->setNextNode(srch->getNextNode()->getNextNode());
+            srch = srch->getNextNode();
+
+            prev->setNextNode(srch->getNextNode());
 
             delete srch;
 
             this->size --;
 
-            count --;
+            count ++;
 
             return true;
         }

@@ -8,7 +8,7 @@ int main()
     
     char input;
 
-    while (true)
+    while(1)
     {
         std::cout << "What would you like to do? R(remove), I(insert), P(print): ";
         std::cin >> input;
@@ -19,7 +19,7 @@ int main()
             case 'R':
 
                 std::cout << "Enter member value to delete: ";
-                std::cin >> value;                
+                std::cin >> value;
 
                 if (!set.remove(value)) 
                 {
