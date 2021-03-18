@@ -89,6 +89,11 @@ bool IntSet::insert(int val)
         return true;
     }
 
+    if (this->node->getVal() == val)
+    {
+        return false;
+    }
+
     IntNode * srch = this->node;        
 
     while (srch->getNextNode() != NULL)
@@ -159,3 +164,4 @@ bool IntSet::remove(int val)
 
     return false;
 }
+
