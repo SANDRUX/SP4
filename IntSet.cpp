@@ -135,6 +135,8 @@ bool IntSet::remove(int val)
 
         delete srch;
 
+        this->size --;
+
         return true;
     }
 
