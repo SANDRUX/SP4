@@ -3,6 +3,6 @@
 ### build:
 ```bash
 cmake CMakeLists.txt
-make .
+make
 ./SP4
 ```
