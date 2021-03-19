@@ -45,6 +45,8 @@ std::ostream &operator<<(std::ostream &os, IntSet * set)
     if (set->isEmpty())
     {
         os << "Set is empty!" << std::endl;
+
+        return os;
     }
 
     os << "[ ";
