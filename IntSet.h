@@ -25,5 +25,3 @@ public:
     bool isEmpty();
     friend std::ostream & operator<<(std::ostream & os, IntSet * set);
 };
-
-std::ostream &operator<<(std::ostream &os, IntSet &set);
